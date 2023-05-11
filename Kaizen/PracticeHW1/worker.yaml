@@ -1,0 +1,16 @@
+- hosts: worker
+  tasks: 
+  - name: Install git, vim, tree
+    yum:
+      name: 
+        - git
+        - vim
+        - tree
+      state: present
+  - name: Uninstall git, vim, tree
+    yum: 
+      name:
+        - git
+        - vim
+        - tree
+      state: absent
