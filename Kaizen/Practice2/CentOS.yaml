@@ -1,2 +1,6 @@
 - debug:
     msg: "Hello from CentOS"
+- name: Install httpd
+  yum:
+    name: httpd
+    state: present
