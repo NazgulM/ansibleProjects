@@ -1,0 +1,13 @@
+- hosts: master
+  tasks: 
+  - name: Install httpd, wget, unzip
+    yum: 
+      name: 
+        - httpd
+        - wget
+        - unzip
+  - name: Start the httpd service
+    service:
+      name: httpd
+      state: started
+      enabled: yes
