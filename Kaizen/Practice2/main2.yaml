@@ -1,15 +1,16 @@
 - hosts: all
-  tasks: 
-  - name: Install httpd, unzip
+  tasks:
+  - name: Install httpd
     yum:
-      name: 
+      name:
         - httpd
         - unzip
+      state: present
   - name: Start service httpd, if not started
-    service: 
+    service:
       name: httpd
       state: started
-      enabled: yes
+      enabled: yes 
   - name: Download wordpress
     get_url:
       url: https://wordpress.org/latest.zip
@@ -21,10 +22,10 @@
       remote_src: yes
   - name: Copy files
     shell: rsync wordpress test
-  - name: Change file ownership
-    file: 
+  - name: Change file ownership, group and permissions
+    file:
       path: /root/test
       recurse: yes
       owner: apache
-      group: owner
+      group: apache
       mode: '0644'

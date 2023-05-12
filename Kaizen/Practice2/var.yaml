@@ -1,0 +1,8 @@
+- hosts: all
+  vars: 
+    name: Nazgul
+    team: devops
+  tasks:
+  - debug: msg="Hello {{name}}, you are {{team}}"
+
+# ansible-playbook --extra-vars=Chyngyz --extra-vars=millionaire var.yaml

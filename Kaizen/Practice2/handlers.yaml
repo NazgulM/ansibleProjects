@@ -1,0 +1,12 @@
+- hosts: wordpress
+  tasks:
+  - name: install httpd
+    yum:
+      name: httpd
+      state: present
+    notify: restart httpd
+  handlers:
+  - name: restart httpd
+    service:
+      name: httpd
+      state: restarted 
