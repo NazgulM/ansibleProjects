@@ -1,0 +1,100 @@
+- hosts: wordpress
+  #  only need a couple of services; mariadb (= MySQL) and httpd (= Apache2)
+  handlers:
+    - name: restart mariadb
+      service:
+        name: mariadb
+        state: restarted
+
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted
+
+  tasks:
+
+    # MariaDB prep
+
+    - name: Install MariaDB
+      yum:
+        name: mariadb-server
+      notify:
+        - restart mariadb
+
+    - name: Run MariaDB
+      service:
+        name: mariadb
+        enabled: true
+        state: started
+
+    - name: Install the MySQLdb python package to enable the mysql_db and mysql_user tasks
+      yum:
+        name: MySQL-python
+
+    - name: Create MariaDB database "blog"
+      mysql_db:
+        name: blog
+
+    - name: Create MariaDB user "blog_user"
+      mysql_user:
+        name: blog_user
+        password: "{{ lookup('password', 'tmp/mysql_blog_password length=10') }}"
+        priv: "blog.*:ALL"
+
+    # Apache2 prep
+
+    - name: Install Apache2
+      yum:
+        name: httpd
+      notify:
+        - restart httpd
+
+    - name: Run Apache2
+      service:
+        name: httpd
+        enabled: true
+        state: started
+
+    # Wordpress prep
+
+    - name: Download wordpress
+      get_url:
+        url: https://wordpress.org/latest.zip
+        dest: /root
+
+    - name: Extract wordpress
+      unarchive:
+        src: /root/wordpress-6.2.zip
+        dest: /root
+        remote_src: yes
+    
+    - name: Copy wp-config file to /var/www/html
+      template: 
+        src: /root/wp-config.php
+        dest: /var/www/html
+        remote_src: yes
+
+
+    - name: Change ownership of /var/www/html/
+      file:
+        path: /var/www/html/
+        owner: apache
+        group: apache
+        state: directory
+        recurse: yes
+
+    # Configure Apache2 to serve Wordpress via PHP
+
+    - name: Install PHP
+      yum:
+        name: php
+      notify:
+        - restart httpd
+
+    - name: Install PHP's MySQL connector
+      yum:
+        name: php-mysql
+
+    - name: Install PHP's graphics library
+      yum:
+        name: php-gd
