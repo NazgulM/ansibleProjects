@@ -65,12 +65,12 @@
     - name: Extract wordpress
       unarchive:
         src: /root/wordpress-6.2.zip
-        dest: /root
+        dest: /var/www/html
         remote_src: yes
     
     - name: Copy wp-config file to /var/www/html
-      template: 
-        src: /root/wp-config.php
+      command: 
+        src: wp-config.php
         dest: /var/www/html
         remote_src: yes
 
