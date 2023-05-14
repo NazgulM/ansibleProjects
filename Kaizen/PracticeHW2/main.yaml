@@ -60,28 +60,24 @@
     - name: Download wordpress
       get_url:
         url: https://wordpress.org/latest.zip
-        dest: /root
+        dest: /tmp/wordpress.zip
 
     - name: Extract wordpress
       unarchive:
-        src: /root/wordpress-6.2.zip
-        dest: /var/www/html
+        src: /tmp/wordpress.zip
+        dest: /tmp
         remote_src: yes
     
-    - name: Copy wp-config file to /var/www/html
-      command: 
-        src: wp-config.php
+
+    - name: Copy file with owner and permissions
+      copy: 
+        src: /tmp/wordpress/.
         dest: /var/www/html
-        remote_src: yes
-
-
-    - name: Change ownership of /var/www/html/
-      file:
-        path: /var/www/html/
         owner: apache
         group: apache
-        state: directory
-        recurse: yes
+        mode: '0755'
+        remote_src: yes
+
 
     # Configure Apache2 to serve Wordpress via PHP
 
