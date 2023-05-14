@@ -1,0 +1,26 @@
+- name: Enable repo
+  shell: yum-config-manager --enable remi-php70
+  when: php_version == 70
+
+- name: Enable repo
+  shell: yum-config-manager --enable remi-php71
+  when: php_version == 71
+
+- name: Enable repo
+  shell: yum-config-manager --enable remi-php72
+  when: php_version == 72
+
+- name: Enable repo
+  shell: yum-config-manager --enable remi-php73
+  when: php_version == 73
+
+- name: Enable repo
+  shell: yum-config-manager --enable remi-php74
+  when: php_version == 74
+
+# - name: Install php and php-mysql
+#   yum:
+#     name:
+#     - php
+#     - php-mysql
+#     state: latest

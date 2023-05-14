@@ -1,0 +1,14 @@
+- hosts: worker
+  vars:
+    php_version: 74
+  tasks: 
+  - name: Install Apache
+    include: apache.yaml
+  - name: Install packages
+    include: packages.yaml
+  - name: Install php
+    include: php.yaml
+  - name: Install wordpress
+    include: wordpress.yaml
+  - name: Install mariadb
+    include: db.yaml
