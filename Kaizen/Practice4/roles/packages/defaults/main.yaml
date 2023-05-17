@@ -1,0 +1,5 @@
+packages:
+- epel-release
+- unzip
+- mysql
+- https://rpms.remirepo.net/enterprise/remi-release-7.rpm

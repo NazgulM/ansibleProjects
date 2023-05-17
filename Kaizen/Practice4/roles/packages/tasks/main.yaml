@@ -1,0 +1,7 @@
+- name: List of packages
+  yum:
+    name: "{{ packages }}"
+
+- name: List of extra packages
+  yum:
+    name: "{{ extra_packages }}"

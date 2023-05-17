@@ -10,15 +10,15 @@
       state: started
       enabled: yes
 
-  - name: Check database
-    shell: mysql -e "use wordpress;"
-    register: database_exists
-    ignore_errors: true
+  # - name: Check database
+  #   shell: mysql -e "use wordpress;"
+  #   register: database_exists
+  #   ignore_errors: true
 
-  - name: Check user
-    shell: mysql -e "SELECT USER FROM mysql.user WHERE user='kaizen'"
-    register: check_user
-    ignore_errors: true
+  # - name: Check user
+  #   shell: mysql -e "SELECT USER FROM mysql.user WHERE user='kaizen'"
+  #   register: check_user
+  #   ignore_errors: true
 
   - name: create database
     shell: mysql -e "CREATE DATABASE wordpress;"

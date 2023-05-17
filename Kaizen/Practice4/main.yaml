@@ -1,0 +1,11 @@
+- hosts: webserver
+  vars:
+    db_name: tuesday
+    db_user: naza
+    db_password: naza123
+  roles:
+    - apache
+    - packages
+    - php
+    - wordpress
+    - database
