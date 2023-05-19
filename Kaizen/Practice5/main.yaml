@@ -1,0 +1,11 @@
+- hosts: web
+  become: true
+  tasks: 
+  - hostname:
+      name: "{{ inventory_hostname }}"
+  - debug: 
+      msg: "{{ ansible_distribution }}"
+  - name: Install Apache
+    include_tasks: "{{  ansible_distribution }}.yaml"
+
+

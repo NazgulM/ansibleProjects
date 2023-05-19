@@ -1,0 +1,10 @@
+- name: Install httpd
+  dnf:
+    name: httpd
+    state: present
+
+- name: Enable httpd
+  service:
+    name: httpd
+    state: started
+    enabled: yes
