@@ -1,0 +1,56 @@
+--- 
+
+- name: deploy website
+  hosts: all
+  become: yes
+  become_user: root
+
+  tasks:
+    - name: update ec2 instance
+      yum:
+        name: "*"
+        state: latest
+        update_cache: yes
+
+    - name: install apache server
+      yum: 
+        name: httpd
+        state: latest
+
+    - name: change directory to the website directory to the html
+      shell: cd /var/www/html
+
+    - name: download web files from github
+      get_url: 
+        url: https://github.com/mudasirhaji/website/raw/main/website.zip
+        dest: /var/www/html
+
+    - name: unzip the zip folder
+      ansible.builtin.unarchive:
+        src: /var/www/html/website.zip
+        dest: /var/www/html
+        remote_src: yes
+
+    - name: copy webfiles from the website directory
+      ansible.builtin.copy:
+        src: /var/www/html/website/
+        dest: /var/www/html
+        remote_src: yes
+
+    - name: remove the website directory
+      ansible.builtin.file:
+        path: /var/www/html/website
+        state: absent
+       
+
+    - name: remove the website.zip folder
+      ansible.builtin.file:
+        path: /var/www/html/website.zip
+        state: absent
+        
+
+    - name: start apache server, if not started
+      ansible.builtin.service:
+        enabled: yes
+        name: httpd
+        state: started
